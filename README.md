@@ -3,7 +3,7 @@
 Real-time multi-class object detection on **images, videos and webcam**, powered
 by a pretrained YOLOv8 Convolutional Neural Network (80 COCO classes).
 
-Built as a 5-person college Computer Vision project — each module is owned by
+Built as a 6-person college Computer Vision project — each module is owned by
 one team member.
 
 ---
@@ -40,7 +40,8 @@ ObjectDetectionProject/
 │   ├── 02_model.py         # Person B: load pretrained YOLOv8
 │   ├── 03_detector.py      # Person C: run inference, return detections
 │   ├── 04_visualizer.py    # Person D: draw boxes + labels
-│   └── 05_app.py           # Person E: CLI app, glues everything
+│   ├── 05_app.py           # Person E: CLI app, glues everything
+│   └── 06_metrics.py       # Person F: FPS / per-class statistics report
 ├── data/                   # sample images (auto-downloaded)
 ├── outputs/                # annotated results
 ├── docs/
@@ -108,6 +109,7 @@ Add `--no-show` to disable the GUI window (useful on headless servers).
 | Person C  | `03_detector.py`        | Run inference, return clean detection dicts          |
 | Person D  | `04_visualizer.py`      | Draw bounding boxes and class labels                  |
 | Person E  | `05_app.py`             | CLI integration, image/video/webcam demo             |
+| Person F  | `06_metrics.py`         | FPS measurement, per-class counts, performance report |
 
 See [`docs/PROJECT_DOC.md`](docs/PROJECT_DOC.md) for the full team document and
 [`docs/CHEATSHEET.md`](docs/CHEATSHEET.md) for talking points each member can use

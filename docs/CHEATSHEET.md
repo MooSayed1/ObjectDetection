@@ -61,12 +61,26 @@ Likely Qs:
 
 > "I'm the integrator. I expose a simple CLI with three modes — image, video
 > and webcam. For video mode I also save the annotated output as `.mp4` using
-> `cv2.VideoWriter`. I measure FPS for the live demo. This is what we
-> actually run in front of the doctor."
+> `cv2.VideoWriter`. This is what we actually run in front of the doctor."
 
 Likely Qs:
-- *What's the FPS?* Depends on hardware — ~30 FPS on GPU, ~10 FPS on CPU for nano model.
 - *How do you stop the live demo?* Press 'q'.
+- *Why a CLI?* So we can demo any of the three modes without changing code.
+
+---
+
+## Person F (Metrics) — `06_metrics.py`
+
+> "I built a `MetricsTracker` class that wraps every detection call. It
+> measures the inference time per frame, the total FPS, the average
+> confidence across all detections, and counts how many of each class were
+> seen. At the end it prints a clean report and also saves it as a `.txt`
+> file in `outputs/`."
+
+Likely Qs:
+- *What's the FPS?* Depends on hardware — ~30 FPS on GPU, ~10 FPS on CPU for the nano model.
+- *Why measure FPS?* To prove the system is real-time, and to compare model variants (n / s / m / l / x).
+- *Difference between speed and accuracy?* FPS = how fast; confidence / mAP = how correct. They usually trade off.
 
 ---
 

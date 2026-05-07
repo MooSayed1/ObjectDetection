@@ -2,7 +2,7 @@
 
 > **Goal:** Build an Object Detection system that works on **images, videos and webcam**, detecting multiple object classes (person, car, bus, dog, etc.).
 >
-> **Team size:** 5 members. Each member owns one module of the pipeline.
+> **Team size:** 6 members. Each member owns one module of the pipeline.
 >
 > **Approach:** Use the pretrained **YOLOv8** model (a Convolutional Neural Network already trained on the **COCO** dataset, 80 object categories). We do *inference only* — no training required.
 
@@ -39,6 +39,12 @@ YOLO ("You Only Look Once") processes the **whole image in a single forward pass
 │ image/video/ │   │ load YOLOv8  │   │ run inference│   │ draw boxes & │   │ CLI: image / │
 │ webcam input │   │ pretrained   │   │ return dets  │   │ class labels │   │ video / cam  │
 └──────────────┘   └──────────────┘   └──────────────┘   └──────────────┘   └──────────────┘
+                                          │                                       │
+                                          ▼                                       ▼
+                                   ┌─────────────────────────────────────────────────┐
+                                   │           06_metrics  (Person F)                │
+                                   │  FPS, per-class counts, average confidence      │
+                                   └─────────────────────────────────────────────────┘
 ```
 
 ---
@@ -122,6 +128,32 @@ For video mode the annotated output is saved to `outputs/video_result.mp4`.
 - End-to-end pipeline integration.
 - `cv2.VideoCapture` / `cv2.VideoWriter`.
 - FPS measurement (frames / elapsed time).
+
+---
+
+### Person F — Metrics Module · `src/06_metrics.py`
+
+**Job:** measure how the system performs and produce a textual report.
+
+Class implemented:
+- `MetricsTracker` with `start_frame()`, `end_frame(detections)`,
+  `print_report()`, `save_report(path)`.
+
+Tracks:
+- Frames processed and total inference time.
+- **Average FPS** (frames per second).
+- Total detections, average objects per frame.
+- **Average confidence** across all detections.
+- Per-class detection counts (e.g. `person: 14, car: 3`).
+
+Reports are auto-saved to `outputs/image_report.txt`,
+`outputs/video_report.txt`, `outputs/webcam_report.txt`.
+
+**Exam topics to mention**
+- Why FPS matters for a real-time detector.
+- Difference between *speed* (FPS) and *accuracy* (mAP / confidence).
+- How statistics help us choose the right model variant
+  (`n` vs `s` vs `m` vs `l` vs `x`).
 
 ---
 
