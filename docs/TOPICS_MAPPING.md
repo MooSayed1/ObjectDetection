@@ -11,6 +11,91 @@ Legend:
 
 ---
 
+## Topic Cheat-Sheet (one paragraph each)
+
+### 1) NN from Scratch
+A **Neural Network** is a stack of layers. Each *neuron* computes
+`output = activation(W·x + b)` — a weighted sum of its inputs followed by a
+non-linear function (sigmoid / ReLU). "From scratch" means we wrote the
+forward pass, the loss, and the **backpropagation** (computing gradients
+with the chain rule and updating weights with gradient descent) using only
+NumPy — no framework. The point is to *see* what a framework hides.
+
+### 2) NN PyTorch
+The same idea but using **PyTorch**, a deep-learning framework. PyTorch
+gives us `nn.Linear`, `nn.ReLU`, automatic differentiation (`loss.backward()`)
+and an optimizer (`Adam`). We define the model in `forward()` and PyTorch
+handles all the gradient math on GPU. Much shorter, faster, and used in
+every modern deep-learning project.
+
+### 3) CNN on FMNIST
+A **Convolutional Neural Network** classifies the **Fashion-MNIST** dataset
+(28×28 grayscale clothing images, 10 classes). A CNN replaces the dense
+layers with **convolutions** — small filters that slide over the image and
+detect local patterns (edges, textures). The standard recipe is
+`Conv → BatchNorm → Activation → Pool`, repeated, then a fully-connected
+layer outputs the class probabilities. CNNs work much better on images than
+plain NNs because they *share weights* and respect spatial structure.
+
+### 4) Harris Corner Detector
+A classical algorithm to find **corners** in an image (places where the
+gradient changes in two directions, like the corner of a window or a
+chessboard square). It computes a `2×2` matrix of gradient products per
+pixel and a "cornerness" score; high scores = corner. Useful for tracking
+and matching, but it only finds *where* an interesting point is — not what
+it represents.
+
+### 5) SIFT (Scale-Invariant Feature Transform)
+A classical method that does two things: (a) finds **keypoints** that are
+invariant to scale and rotation (built using a Difference-of-Gaussians
+pyramid), and (b) computes a 128-dimensional **descriptor** for each
+keypoint based on local gradient orientations. SIFT descriptors of the same
+real-world point look similar even if the image is rotated, scaled or
+slightly distorted — perfect for matching the same object in two photos
+(used in panorama stitching and image retrieval).
+
+### 6) HOG (Histogram of Oriented Gradients) on Image
+A classical *image-level* feature. Split the image into small cells, compute
+the gradient direction & magnitude in each, and build a **histogram of
+orientations**. Concatenate all histograms → a long feature vector that
+describes the whole image's shape structure. Famous combo: **HOG + linear
+SVM** for pedestrian detection (Dalal & Triggs, 2005). It was *the*
+state-of-the-art object detector before deep learning.
+
+### 7) RANSAC (Random Sample Consensus)
+A robust algorithm to **fit a model to data with outliers**. Repeatedly:
+pick a random minimal subset → fit a model (line, homography, etc.) →
+count how many points agree (inliers). Keep the model with the most
+inliers. Used heavily in computer vision when you have noisy correspondences,
+e.g., to find the transformation between two images for panorama stitching.
+
+### 8) Panorama
+The task of **stitching multiple overlapping photos** into one wide image.
+Pipeline: detect keypoints with SIFT in both images → match descriptors →
+use **RANSAC** to find a robust **homography** (a 3×3 transform) → warp one
+image onto the other → blend. Combines SIFT + RANSAC + image warping.
+
+### 9) BoVW (Bag of Visual Words)
+The classical pipeline for **image classification** before CNNs.
+(1) Extract SIFT descriptors from all training images.
+(2) Cluster all descriptors with **K-Means** to build a "vocabulary" of
+visual words.
+(3) Represent each image as a **histogram** counting how many descriptors
+fell into each cluster.
+(4) Train a classifier (SVM) on these histograms. The same idea as
+"bag of words" in NLP, but with image patches instead of text words.
+
+### 10) Clustering
+**Unsupervised learning** that groups similar items together with no
+labels. Most common algorithm: **K-Means** — pick K random centers,
+assign each point to the nearest center, move centers to the mean of
+their assigned points, repeat until stable. Used inside BoVW (to build the
+vocabulary), in color quantization (reducing colors in an image), and in
+older YOLO versions to choose default anchor-box sizes from the training
+set.
+
+---
+
 ## Quick Summary Table
 
 | # | Topic            | Status | Where / Why                                                          |
